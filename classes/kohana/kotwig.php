@@ -31,9 +31,19 @@ class Kohana_Kotwig {
 			// Load Twig configuration
 			Kotwig::$instance->config = Kohana::$config->load('kotwig');
 
+			// Array of template locations in cascading filesystem
+			$template_paths = array(APPPATH.'views');
+			foreach (Kohana::modules() as $module_path)
+			{
+				$temp_path = $module_path.'views';
+				if (is_dir($temp_path))
+				{
+					$template_paths[] = $temp_path;
+				}
+			}
 			// Create the the loader
-			$loader = new Twig_Loader_Filesystem(Kotwig::$instance->config->templates);
-
+			$loader = new Twig_Loader_Filesystem($template_paths);
+			
 			// Set up Twig
 			Kotwig::$instance->twig = new Twig_Environment($loader, Kotwig::$instance->config->environment);
 
@@ -47,7 +57,7 @@ class Kohana_Kotwig {
 		return Kotwig::$instance;
 	}
 
-	final private function __construct()
+	final protected function __construct()
 	{
 		// This is a singleton class
 	}

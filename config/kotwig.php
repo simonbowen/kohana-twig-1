@@ -18,6 +18,6 @@ return array
 	(
 		// List extension class names
 	),
-	'templates'      => APPPATH.'views',
+	'templates_dir'  => 'views',
 	'suffix'         => 'twig',
 );
